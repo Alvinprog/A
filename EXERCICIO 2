@@ -1,0 +1,78 @@
+#include <stdio.h>
+
+#define MAX_SIZE 50
+
+//Inserir um elemento em ordem crescente
+int inserirCrescente(int lista[], int tamanho, int x) {
+    if (tamanho >= MAX_SIZE) {
+        printf("Lista cheia! Não é possível inserir o elemento %d.\n", x);
+        return tamanho; // Retorna o tamanho atual da lista
+    }
+    int i;
+    // Encontrar a posição onde o novo elemento deve ser inserido
+    for (i = 0; i < tamanho; i++) {
+        if (lista[i] > x) {
+            break;
+        }
+    }
+
+    // Move os elementos para a direita para abrir espaço
+    for (int j = tamanho; j > i; j--) {
+        lista[j] = lista[j - 1];
+    }
+
+    // Insere um novo elemento
+    lista[i] = x;
+    return tamanho + 1; // Retorna o novo tamanho da lista
+}
+
+// Inserir um elemento em ordem decrescente
+int inserirDecrescente(int lista[], int tamanho, int x) {
+    if (tamanho >= MAX_SIZE) {
+        printf("Lista cheia! Não é possível inserir o elemento %d.\n", x);
+        return tamanho; // Retorna o tamanho atual da lista
+    }
+
+    int i;
+    // Encontrar a posição onde o novo elemento deve ser inserido
+    for (i = 0; i < tamanho; i++) {
+        if (lista[i] < x) {
+            break;
+        }
+    }
+    // Move os elementos para a direita para abrir espaço
+    for (int j = tamanho; j > i; j--) {
+        lista[j] = lista[j - 1];
+    }
+    // Insere o novo elemento
+    lista[i] = x;
+    return tamanho + 1; // Retorna o novo tamanho da lista
+}
+void imprimirLista(int lista[], int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        printf("%d ", lista[i]);
+    }
+    printf("\n");
+}
+int main() {
+    int lista[MAX_SIZE];
+    int tamanho = 0;
+
+    // Inserindo elementos em ordem crescente
+    tamanho = inserirCrescente(lista, tamanho, 5);
+    tamanho = inserirCrescente(lista, tamanho, 2);
+    tamanho = inserirCrescente(lista, tamanho, 8);
+    tamanho = inserirCrescente(lista, tamanho, 3);
+    
+    printf("Lista em ordem crescente: ");
+    imprimirLista(lista, tamanho);
+    tamanho = inserirDecrescente(lista, tamanho, 10);
+    tamanho = inserirDecrescente(lista, tamanho, 7);
+    tamanho = inserirDecrescente(lista, tamanho, 12);
+    tamanho = inserirDecrescente(lista, tamanho, 1);
+    
+    printf("Lista em ordem decrescente: ");
+    imprimirLista(lista, tamanho);
+
+    return 0;
+}
