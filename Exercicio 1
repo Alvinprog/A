@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+typedef struct {
+    int elemento;
+    int contagem;
+} ContagemElemento;
+
+int estaOrdenada(int L1[], int tamanho) {
+    int crescente = 1, decrescente = 1;
+    for (int i = 1; i < tamanho; i++) {
+        if (L1[i] < L1[i - 1]) crescente = 0;
+        if (L1[i] > L1[i - 1]) decrescente = 0;
+    }
+    return crescente || decrescente;
+}
+void copiarLista(int L1[], int L2[], int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        L2[i] = L1[i];
+    }
+}
+int copiarUnicos(int L1[], int L2[], int tamanho) {
+    int j = 0;
+    for (int i = 0; i < tamanho; i++) {
+        if (i == 0 || L1[i] != L1[i - 1]) {
+            L2[j++] = L1[i];
+        }
+    }
+    return j; // Retorna o novo tamanho de L2
+}
+void inverterLista(int L1[], int L2[], int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        L2[i] = L1[tamanho - 1 - i];
+    }
+}
+void inverterEmLugar(int L1[], int tamanho) {
+    for (int i = 0; i < tamanho / 2; i++) {
+        int temp = L1[i];
+        L1[i] = L1[tamanho - 1 - i];
+        L1[tamanho - 1 - i] = temp;
+    }
+}
+void intercalar(int L1[], int L2[], int L3[], int tamanho1, int tamanho2) {
+    int i = 0, j = 0, k = 0;
+    while (i < tamanho1 && j < tamanho2) {
+        L3[k++] = L1[i++];
+        L3[k++] = L2[j++];
+    }
+    while (i < tamanho1) L3[k++] = L1[i++];
+    while (j < tamanho2) L3[k++] = L2[j++];
+}
+int gerarListaContagem(int L1[], ContagemElemento listaContagem[], int tamanho) {
+    int j = 0;
+    for (int i = 0; i < tamanho; i++) {
+        if (i == 0 || L1[i] != L1[i - 1]) {
+            listaContagem[j].elemento = L1[i];
+            listaContagem[j].contagem = 1;
+            j++;
+        } else {
+            listaContagem[j - 1].contagem++;
+        }
+    }
+    return j; // Retorna o tamanho da lista de contagem
+}
+int removerElemento(int L1[], int tamanho, int elemento) {
+    int j = 0;
+    for (int i = 0; i < tamanho; i++) {
+        if (L1[i] != elemento) {
+            L1[j++] = L1[i];
+        }
+    }
+    return j; // Retorna o novo tamanho da lista
+}
+void encontrarMinMaxContagens(ContagemElemento listaContagem[], int tamanho, int *minElemento, int *minContagem, int *maxElemento, int *maxContagem) {
+    *minElemento = listaContagem[0].elemento;
+    *minContagem = listaContagem[0].contagem;
+    *maxElemento = listaContagem[0].elemento;
+    *maxContagem = listaContagem[0].contagem;
+
+    for (int i = 1; i < tamanho; i++) {
+        if (listaContagem[i].contagem < *minContagem) {
+            *minContagem = listaContagem[i].contagem;
+            *minElemento = listaContagem[i].elemento;
+        }
+        if (listaContagem[i].contagem > *maxContagem) {
+            *maxContagem = listaContagem[i].contagem;
+            *maxElemento = listaContagem[i].elemento;
+        }
+    }
+}
