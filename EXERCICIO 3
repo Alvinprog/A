@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_PRODUTOS 20
+#define MAX_NOME 50
+
+typedef struct {
+    char nome[MAX_NOME];
+    float preco;
+} Produto;
+// Função para comparar produtos (usada para ordem)
+int compararProdutos(const void *a, const void *b) {
+    Produto *produtoA = (Produto *)a;
+    Produto *produtoB = (Produto *)b;
+    return strcmp(produtoA->nome, produtoB->nome);
+}
+// Função para inflacionar o preço dos produtos
+void inflacionarPrecos(Produto produtos[], int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        if (produtos[i].preco < 100) {
+            produtos[i].preco *= 1.05; // Aumenta 5%
+        }
+    }
+}
+// Imprimir a lista de produtos
+void imprimirProdutos(Produto produtos[], int tamanho) {
+    printf("\nLista de Produtos e Preços:\n");
+    for (int i = 0; i < tamanho; i++) {
+        printf("Produto: %s, Preço: %.2f\n", produtos[i].nome, produtos[i].preco);
+    }
+}
+int main() {
+    Produto produtos[MAX_PRODUTOS];
+    int i;
+    // Leitura dos produtos
+    for (i = 0; i < MAX_PRODUTOS; i++) {
+        printf("Digite o nome do produto %d: ", i + 1);
+        scanf(" %[^\n]", produtos[i].nome); // Lê uma linha inteira
+        printf("Digite o preço do produto %d: ", i + 1);
+        scanf("%f", &produtos[i].preco);
+    }
+    qsort(produtos, MAX_PRODUTOS, sizeof(Produto), compararProdutos);
+
+    inflacionarPrecos(produtos, MAX_PRODUTOS);
+
+    imprimirProdutos(produtos, MAX_PRODUTOS);
+
+    return 0;
+}
